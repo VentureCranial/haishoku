@@ -2,8 +2,17 @@
 # -*- coding: utf-8 -*-
 # @Date    : 2017-05-15 15:10
 # @Author  : Gin (gin.lance.inside@hotmail.com)
-# @Link    : 
+# @Link    :
 # @Disc    : alg about palette
+
+import math
+
+def partition(num):
+    size = 256/num
+    return [[math.floor(size*i), math.floor(size*(i+1))] for i in range(num)]
+
+def in_partition(value, segment, partition):
+    return partition[segment][0] <= value and partition[segment][1] > value
 
 def sort_by_rgb(colors_tuple):
     """ colors_tuple contains color count and color RGB
@@ -25,77 +34,155 @@ def group_by_accuracy(sorted_tuple, accuracy=3):
             [[[], [], []], [[], [], []], [[], [], []]],
             [[[], [], []], [[], [], []], [[], [], []]]
         ]
+
+    parts = partition(accuracy)
+
+
     for color_tuple in sorted_tuple:
         r_tmp_i = color_tuple[1][0]
         g_tmp_i = color_tuple[1][1]
         b_tmp_i = color_tuple[1][2]
-        if 0 <= r_tmp_i and 85 > r_tmp_i:
-            if 0 <= g_tmp_i and 85 > g_tmp_i:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+        if in_partition(r_tmp_i, 0, parts):
+            if in_partition(g_tmp_i, 0, parts):
+                if in_partition(b_tmp_i, 0, parts):
                     rgb[0][0][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[0][0][1].append(color_tuple)
                 else:
                     rgb[0][0][2].append(color_tuple)
 
-            elif 85 <= g_tmp_i and 170 > g_tmp_i:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+        # if 0 <= r_tmp_i and 85 > r_tmp_i:
+        #     if 0 <= g_tmp_i and 85 > g_tmp_i:
+        #         if 0 <= b_tmp_i and 85 > b_tmp_i:
+        #             rgb[0][0][0].append(color_tuple)
+        #         elif 85 <= b_tmp_i and 170 > b_tmp_i:
+        #             rgb[0][0][1].append(color_tuple)
+        #         else:
+        #             rgb[0][0][2].append(color_tuple)
+            elif in_partition(g_tmp, 1, parts):
+                if in_partition(b_tmp, 0, parts):
                     rgb[0][1][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp, 1, parts):
                     rgb[0][1][1].append(color_tuple)
                 else:
                     rgb[0][1][2].append(color_tuple)
+
+            # elif 85 <= g_tmp_i and 170 > g_tmp_i:
+            #     if 0 <= b_tmp_i and 85 > b_tmp_i:
+            #         rgb[0][1][0].append(color_tuple)
+            #     elif 85 <= b_tmp_i and 170 > b_tmp_i:
+            #         rgb[0][1][1].append(color_tuple)
+            #     else:
+            #         rgb[0][1][2].append(color_tuple)
+
             else:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+                if in_partition(b_tmp_i, 0, parts):
                     rgb[0][2][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[0][2][1].append(color_tuple)
                 else:
-                    rgb[0][2][2].append(color_tuple) 
-        elif 85 <= r_tmp_i and 170 > r_tmp_i:
-            if 0 <= g_tmp_i and 85 > g_tmp_i:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+                    rgb[0][2][2].append(color_tuple)
+
+            # else:
+            #     if 0 <= b_tmp_i and 85 > b_tmp_i:
+            #         rgb[0][2][0].append(color_tuple)
+            #     elif 85 <= b_tmp_i and 170 > b_tmp_i:
+            #         rgb[0][2][1].append(color_tuple)
+            #     else:
+            #         rgb[0][2][2].append(color_tuple)
+
+
+
+        elif in_partition(r_tmp_i, 0, parts):
+            if in_partition(g_tmp_i, 0, parts):
+                if in_partition(b_tmp_i, 0, parts):
                     rgb[1][0][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[1][0][1].append(color_tuple)
                 else:
                     rgb[1][0][2].append(color_tuple)
-            elif 85 <= g_tmp_i and 170 > g_tmp_i:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+            elif in_partition(g_tmp_i, 1, parts):
+                if in_partition(b_tmp_i, 0, parts):
                     rgb[1][1][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[1][1][1].append(color_tuple)
                 else:
                     rgb[1][1][2].append(color_tuple)
             else:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+                if  in_partition(b_tmp_i, 0, parts):
                     rgb[1][2][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[1][2][1].append(color_tuple)
                 else:
-                    rgb[1][2][2].append(color_tuple) 
+                    rgb[1][2][2].append(color_tuple)
+
+        # elif 85 <= r_tmp_i and 170 > r_tmp_i:
+        #     if 0 <= g_tmp_i and 85 > g_tmp_i:
+        #         if 0 <= b_tmp_i and 85 > b_tmp_i:
+        #             rgb[1][0][0].append(color_tuple)
+        #         elif 85 <= b_tmp_i and 170 > b_tmp_i:
+        #             rgb[1][0][1].append(color_tuple)
+        #         else:
+        #             rgb[1][0][2].append(color_tuple)
+        #     elif 85 <= g_tmp_i and 170 > g_tmp_i:
+        #         if 0 <= b_tmp_i and 85 > b_tmp_i:
+        #             rgb[1][1][0].append(color_tuple)
+        #         elif 85 <= b_tmp_i and 170 > b_tmp_i:
+        #             rgb[1][1][1].append(color_tuple)
+        #         else:
+        #             rgb[1][1][2].append(color_tuple)
+        #     else:
+        #         if 0 <= b_tmp_i and 85 > b_tmp_i:
+        #             rgb[1][2][0].append(color_tuple)
+        #         elif 85 <= b_tmp_i and 170 > b_tmp_i:
+        #             rgb[1][2][1].append(color_tuple)
+        #         else:
+        #             rgb[1][2][2].append(color_tuple)
+
+        elif in_partition(r_tmp_i, 1, parts):
+            if in_partition(g_tmp_i, 0, parts):
+                if in_partition(b_tmp_i, 0, parts):
+                    rgb[1][0][0].append(color_tuple)
+                elif in_partition(b_tmp_i, 1, parts):
+                    rgb[1][0][1].append(color_tuple)
+                else:
+                    rgb[1][0][2].append(color_tuple)
+            elif in_partition(g_tmp_i, 1, parts):
+                if in_partition(b_tmp_i, 0, parts):
+                    rgb[1][1][0].append(color_tuple)
+                elif in_partition(b_tmp_i, 1, parts):
+                    rgb[1][1][1].append(color_tuple)
+                else:
+                    rgb[1][1][2].append(color_tuple)
+            else:
+                if in_partition(b_tmp_i, 0, parts):
+                    rgb[1][2][0].append(color_tuple)
+                elif in_partition(b_tmp_i, 1, parts):
+                    rgb[1][2][1].append(color_tuple)
+                else:
+                    rgb[1][2][2].append(color_tuple)
         else:
-            if 0 <= g_tmp_i and 85 > g_tmp_i:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+            if in_partition(g_tmp_i, 0, parts):
+                if in_partition(b_tmp_i, 0, parts):
                     rgb[2][0][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[2][0][1].append(color_tuple)
                 else:
                     rgb[2][0][2].append(color_tuple)
-            elif 85 <= g_tmp_i and 170 > g_tmp_i:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+            elif in_partition(g_tmp_i, 1, parts):
+                if in_partition(b_tmp_i, 0, parts):
                     rgb[2][1][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[2][1][1].append(color_tuple)
                 else:
                     rgb[2][1][2].append(color_tuple)
             else:
-                if 0 <= b_tmp_i and 85 > b_tmp_i:
+                if in_partition(b_tmp_i, 0, parts):
                     rgb[2][2][0].append(color_tuple)
-                elif 85 <= b_tmp_i and 170 > b_tmp_i:
+                elif in_partition(b_tmp_i, 1, parts):
                     rgb[2][2][1].append(color_tuple)
                 else:
-                    rgb[2][2][2].append(color_tuple) 
+                    rgb[2][2][2].append(color_tuple)
 
     return rgb
 
@@ -120,6 +207,6 @@ def get_weighted_mean(grouped_image_color):
     r_weighted_mean = int(sigma_r / sigma_count)
     g_weighted_mean = int(sigma_g / sigma_count)
     b_weighted_mean = int(sigma_b / sigma_count)
-    
+
     weighted_mean = (sigma_count, (r_weighted_mean, g_weighted_mean, b_weighted_mean))
     return weighted_mean
