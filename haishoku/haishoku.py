@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Date    : 2017-05-15 15:10
 # @Author  : Gin (gin.lance.inside@hotmail.com)
-# @Link    : 
+# @Link    :
 # @Disc    : haishoku main function
 
 import sys
@@ -85,7 +85,7 @@ class Haishoku(object):
         colors_mean = sorted(colors_mean, reverse=True)
 
         return colors_mean
-        
+
     def showPalette(image_path):
         # get the palette first
         palette = Haishoku.getPalette(image_path)
@@ -138,7 +138,7 @@ class Haishoku(object):
         # calulate the percentage
         palette = []
         for p in palette_tmp:
-            pp = '%.2f' % (p[0] / count_sum)
+            pp = '%.4f' % (p[0] / count_sum)
             tp = (float(pp), p[1])
             palette.append(tp)
 
