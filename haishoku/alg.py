@@ -28,27 +28,27 @@ def group_by_accuracy(sorted_tuple, accuracy=3):
         default accuracy = 3
 
         [0, 85), [85, 170), [170, 256)
-    """
-    # rgb = [
-    #         [[[], [], []], [[], [], []], [[], [], []]],
-    #         [[[], [], []], [[], [], []], [[], [], []]],
-    #         [[[], [], []], [[], [], []], [[], [], []]]
-    #     ]
 
+        Increasing accuracy will result in more granularity of the
+        colorspace.
+    """
+
+    # 3D colorspace of accuracy
     rgb = [[[[] for i in range(accuracy)]
            for j in range(accuracy)]
            for k in range(accuracy)]
 
-    size = 256.0 / accuracy
+    size = math.floor(256.0 / accuracy)
 
     for color_tuple in sorted_tuple:
         r_tmp_i = color_tuple[1][0]
-        g_tmp_i = color_tuple[1][1]
-        b_tmp_i = color_tuple[1][2]
+        r_part = min(math.floor(r_tmp_i/size), accuracy-1)
 
-        r_part = math.floor(r_tmp_i/size)
-        g_part = math.floor(g_tmp_i/size)
-        b_part = math.floor(b_tmp_i/size)
+        g_tmp_i = color_tuple[1][1]
+        g_part = min(math.floor(g_tmp_i/size), accuracy-1)
+
+        b_tmp_i = color_tuple[1][2]
+        b_part = min(math.floor(b_tmp_i/size), accuracy-1)
 
         rgb[r_part][g_part][b_part].append(color_tuple)
 

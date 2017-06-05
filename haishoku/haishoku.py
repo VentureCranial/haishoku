@@ -54,7 +54,7 @@ class Haishoku(object):
         3. getDominant
         4. getPalette
     """
-    def getColorsMean(image_path, accuracy=3):
+    def getColorsMean(image_path, accuracy=3, count=8):
         # get colors tuple with haillow module
         image_colors = haillow.get_colors(image_path)
 
@@ -76,8 +76,8 @@ class Haishoku(object):
 
         # return the most 8 colors
         temp_sorted_colors_mean = sorted(colors_mean)
-        if 8 < len(temp_sorted_colors_mean):
-            colors_mean = temp_sorted_colors_mean[len(temp_sorted_colors_mean)-8 : len(temp_sorted_colors_mean)]
+        if count > 0 and count < len(temp_sorted_colors_mean):
+            colors_mean = temp_sorted_colors_mean[-count:]
         else:
             colors_mean = temp_sorted_colors_mean
 
