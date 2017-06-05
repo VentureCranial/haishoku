@@ -54,7 +54,7 @@ class Haishoku(object):
         3. getDominant
         4. getPalette
     """
-    def getColorsMean(image_path):
+    def getColorsMean(image_path, accuracy=3):
         # get colors tuple with haillow module
         image_colors = haillow.get_colors(image_path)
 
@@ -62,13 +62,13 @@ class Haishoku(object):
         sorted_image_colors = alg.sort_by_rgb(image_colors)
 
         # group the colors by the accuaracy
-        grouped_image_colors = alg.group_by_accuracy(sorted_image_colors)
+        grouped_image_colors = alg.group_by_accuracy(sorted_image_colors, accuracy=accuracy)
 
         # get the weighted mean of all colors
         colors_mean = []
-        for i in range(3):
-            for j in range(3):
-                for k in range(3):
+        for i in range(accuracy):
+            for j in range(accuracy):
+                for k in range(accuracy):
                     grouped_image_color = grouped_image_colors[i][j][k]
                     if 0 != len(grouped_image_color):
                         color_mean = alg.get_weighted_mean(grouped_image_color)
